@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Educación, IA y Transformación Universitaria</title>
+<meta name="description" content="Arquitecturas para repensar la universidad en tiempos de inteligencia artificial. Herramientas, metodologías, investigación y experiencia aplicada.">
+<meta property="og:title" content="Educación, IA y Transformación Universitaria">
+<meta property="og:description" content="Herramientas, metodologías, investigación y experiencia aplicada para transformar la educación superior con IA.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600;1,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #060a14;
+  --bg-alt: #0c1120;
+  --card: #0f1628;
+  --accent: #38bdf8;
+  --gold: #f5a623;
+  --emerald: #34d399;
+  --violet: #8b5cf6;
+  --rose: #fb7185;
+  --lavender: #a78bfa;
+  --text: #e4e8f0;
+  --text-soft: #94a3b8;
+  --text-dim: #5a6a80;
+  --border: #192038;
+  --border-light: #243050;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #243050; border-radius: 4px; }
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+@keyframes slideRight {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Nav ── */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(6,10,20,0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo { display: flex; align-items: center; gap: 8px; }
+.nav-logo span:first-child { font-size: 20px; color: var(--accent); }
+.nav-logo span:last-child { font-size: 14px; font-weight: 700; letter-spacing: 0.5px; }
+.nav-links { display: flex; gap: 6px; flex-wrap: wrap; }
+.nav-links a {
+  color: var(--text-soft); text-decoration: none;
+  font-size: 12px; font-weight: 600; padding: 6px 14px;
+  border-radius: 16px; border: 1px solid transparent;
+  transition: all 0.3s;
+}
+.nav-links a:hover { border-color: var(--border-light); color: var(--text); }
+.nav-links a.active { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+
+/* ── Hero ── */
+.hero {
+  position: relative; min-height: 100vh; min-height: 100svh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 100px 24px 80px;
+  overflow: hidden;
+}
+.hero canvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; opacity: 0.6;
+}
+.hero-content {
+  position: relative; z-index: 2;
+  text-align: center; max-width: 700px;
+  animation: fadeUp 1s cubic-bezier(0.16,1,0.3,1);
+}
+.hero-tag {
+  font-size: 11px; letter-spacing: 5px; color: var(--gold);
+  font-weight: 700; margin-bottom: 24px; text-transform: uppercase;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(34px, 6.5vw, 60px);
+  font-weight: 900; line-height: 1.08;
+  margin-bottom: 22px;
+  background: linear-gradient(135deg, #ffffff 0%, #38bdf8 55%, #f5a623 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero p {
+  font-size: 17px; color: var(--text-soft);
+  max-width: 540px; margin: 0 auto 32px; line-height: 1.65;
+}
+.hero-phrase {
+  height: 36px; display: flex; align-items: center; justify-content: center;
+  margin-bottom: 32px;
+}
+.hero-phrase span {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px; color: var(--gold); font-style: italic;
+  transition: opacity 0.6s;
+}
+.hero-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--accent); color: var(--bg);
+  border: none; padding: 14px 32px; border-radius: 30px;
+  font-size: 14px; font-weight: 700; cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(56,189,248,0.25); }
+.btn-outline {
+  background: transparent; color: var(--accent);
+  border: 1.5px solid rgba(56,189,248,0.35);
+  padding: 14px 32px; border-radius: 30px;
+  font-size: 14px; font-weight: 600; cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.3s;
+}
+.btn-outline:hover { border-color: var(--accent); background: rgba(56,189,248,0.08); }
+
+/* ── Section Headers ── */
+.section-tag {
+  font-size: 10px; letter-spacing: 4px; font-weight: 700;
+  margin-bottom: 10px; text-transform: uppercase;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 4vw, 34px);
+  font-weight: 800; margin-bottom: 10px; line-height: 1.15;
+}
+.section-desc {
+  font-size: 14px; color: var(--text-soft);
+  max-width: 480px; margin: 0 auto;
+}
+
+/* ── Quién Soy ── */
+.about {
+  padding: 100px 24px;
+  max-width: 760px; margin: 0 auto;
+}
+.about-grid {
+  display: flex; gap: 28px; align-items: flex-start; flex-wrap: wrap;
+}
+.about-avatar {
+  width: 90px; height: 90px; border-radius: 22px;
+  background: linear-gradient(135deg, #38bdf8, #8b5cf6);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px; color: #fff; font-weight: 800;
+  font-family: 'Playfair Display', serif; flex-shrink: 0;
+}
+.about-text { flex: 1; min-width: 280px; }
+.about-text h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px; font-weight: 800; margin-bottom: 14px; line-height: 1.2;
+}
+.about-text p { font-size: 15px; color: var(--text-soft); line-height: 1.7; margin-bottom: 18px; }
+.about-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.about-tags span {
+  background: var(--card); border: 1px solid var(--border);
+  padding: 6px 16px; border-radius: 22px; font-size: 12px;
+  font-weight: 600; color: var(--text-soft);
+}
+
+/* ── Ecosystem ── */
+.ecosystem {
+  padding: 80px 24px 100px;
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 50%, var(--bg) 100%);
+}
+.ecosystem-inner { max-width: 760px; margin: 0 auto; }
+.eco-svg { display: block; width: 100%; max-width: 540px; margin: 20px auto; }
+.eco-node { cursor: pointer; }
+.eco-node:hover circle:nth-child(3) { r: 22; }
+.eco-detail {
+  max-width: 500px; margin: 12px auto 0;
+  background: var(--card); border-radius: 16px;
+  padding: 24px 20px;
+  animation: fadeUp 0.4s;
+  display: none;
+}
+.eco-detail.open { display: block; }
+.eco-detail-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.eco-detail-icon { font-size: 30px; }
+.eco-detail-title { font-size: 19px; font-weight: 700; }
+.eco-detail-sub { font-size: 11px; color: var(--text-dim); }
+.eco-detail p { font-size: 13px; line-height: 1.65; margin-bottom: 14px; }
+.eco-connections { display: flex; flex-wrap: wrap; gap: 6px; }
+.eco-conn {
+  padding: 4px 12px; border-radius: 12px;
+  font-size: 10px; font-weight: 600; cursor: pointer;
+  border: 1px solid; transition: all 0.2s;
+}
+.eco-conn:hover { transform: scale(1.05); }
+
+/* ── Tesis ── */
+.tesis { padding: 100px 24px; text-align: center; }
+.tesis-line {
+  width: 44px; height: 2px; background: var(--gold);
+  margin: 0 auto 28px; border-radius: 2px;
+}
+.tesis blockquote {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(18px, 3.5vw, 26px);
+  line-height: 1.55; font-style: italic;
+  max-width: 620px; margin: 0 auto;
+}
+
+/* ── Líneas Estratégicas ── */
+.lineas { padding: 80px 24px 100px; max-width: 760px; margin: 0 auto; }
+.component-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 20px;
+  margin-bottom: 14px;
+  cursor: pointer;
+  transition: all 0.35s;
+  position: relative; overflow: hidden;
+}
+.component-card:hover { border-color: var(--border-light); }
+.component-card .card-num {
+  position: absolute; top: -18px; right: -8px;
+  font-family: 'Playfair Display', serif;
+  font-size: 80px; font-weight: 800; line-height: 1;
+  opacity: 0.03; pointer-events: none;
+}
+.card-header { display: flex; align-items: center; gap: 12px; }
+.card-icon {
+  width: 42px; height: 42px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.card-title { font-size: 17px; font-weight: 700; }
+.card-tagline { font-size: 11px; color: var(--text-dim); }
+.card-toggle {
+  margin-left: auto; color: var(--text-dim);
+  font-size: 20px; transition: transform 0.3s;
+}
+.card-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.component-card.open .card-body { max-height: 400px; }
+.component-card.open .card-toggle { transform: rotate(45deg); }
+.card-body-inner { padding-top: 16px; }
+.card-body p { font-size: 13px; color: var(--text); line-height: 1.65; margin-bottom: 14px; }
+.card-problem {
+  border-radius: 10px; padding: 14px 16px; margin-bottom: 14px;
+}
+.card-problem .label {
+  font-size: 9px; letter-spacing: 2px; font-weight: 700; margin-bottom: 6px;
+}
+.card-problem p { font-size: 12px; color: var(--text-soft); font-style: italic; margin: 0; }
+.card-values { display: flex; flex-wrap: wrap; gap: 6px; }
+.card-values span {
+  padding: 4px 14px; border-radius: 20px;
+  font-size: 10px; font-weight: 600;
+}
+
+/* ── Pilares ── */
+.pilares {
+  padding: 100px 24px;
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 100%);
+}
+.pilares-inner { max-width: 760px; margin: 0 auto; }
+.pilares-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px; margin-top: 36px;
+}
+.pilar-card {
+  background: var(--card);
+  border-radius: 16px; padding: 24px 20px;
+  position: relative; overflow: hidden;
+  min-height: 150px;
+  transition: transform 0.3s, border-color 0.3s;
+}
+.pilar-card:hover { transform: translateY(-4px); }
+.pilar-num {
+  position: absolute; top: -14px; right: -6px;
+  font-family: 'Playfair Display', serif;
+  font-size: 72px; font-weight: 900; line-height: 1;
+  opacity: 0.04;
+}
+.pilar-dot {
+  width: 11px; height: 11px; border-radius: 50%;
+  margin-bottom: 16px;
+}
+.pilar-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; line-height: 1.25; }
+.pilar-desc { font-size: 12px; color: var(--text-soft); line-height: 1.5; }
+
+/* ── Internacional ── */
+.internacional { padding: 100px 24px; max-width: 760px; margin: 0 auto; }
+.intl-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 22px; padding: 40px 30px;
+  display: flex; gap: 28px; align-items: center; flex-wrap: wrap;
+}
+.intl-globe {
+  width: 110px; height: 110px; border-radius: 50%;
+  background: linear-gradient(135deg, #fb7185, #f5a623);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: #fff; font-weight: 800; text-align: center;
+  line-height: 1.3; flex-shrink: 0; animation: float 6s ease-in-out infinite;
+}
+.intl-text { flex: 1; min-width: 260px; }
+.intl-text h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px; font-weight: 800; margin-bottom: 12px;
+}
+.intl-text p { font-size: 14px; color: var(--text-soft); line-height: 1.65; }
+
+/* ── CTA ── */
+.cta {
+  padding: 100px 24px;
+  background: linear-gradient(180deg, var(--bg) 0%, #0c1628 100%);
+  text-align: center;
+}
+.cta-inner { max-width: 540px; margin: 0 auto; }
+.cta-tags { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 28px 0 36px; }
+.cta-tags span {
+  background: var(--card); border: 1px solid var(--border-light);
+  padding: 8px 20px; border-radius: 24px; font-size: 13px;
+  font-weight: 600; color: var(--text-soft);
+}
+.cta-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn-linkedin {
+  background: transparent; color: #0a66c2;
+  border: 1.5px solid #0a66c2; padding: 14px 32px;
+  border-radius: 30px; font-size: 14px; font-weight: 600;
+  cursor: pointer; font-family: 'DM Sans', sans-serif;
+  transition: all 0.3s;
+}
+.btn-linkedin:hover { background: rgba(10,102,194,0.1); }
+
+/* ── Footer ── */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 24px; text-align: center;
+}
+.footer-icons { display: flex; justify-content: center; gap: 8px; margin-bottom: 12px; }
+.footer-icons span { font-size: 16px; opacity: 0.55; }
+.footer p { font-size: 11px; color: var(--text-dim); }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .nav-links a { font-size: 11px; padding: 5px 10px; }
+  .about-grid { flex-direction: column; align-items: center; text-align: center; }
+  .about-tags { justify-content: center; }
+  .intl-card { flex-direction: column; text-align: center; }
+  .pilares-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════ NAV ═══════ -->
+<nav class="nav">
+  <div class="nav-logo">
+    <span>◈</span>
+    <span>Tu Nombre</span>
+  </div>
+  <div class="nav-links">
+    <a href="#ecosistema">Ecosistema</a>
+    <a href="#lineas">Proyectos</a>
+    <a href="#pilares">Contenido</a>
+    <a href="#contacto" class="active">Contacto</a>
+  </div>
+</nav>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="hero" id="inicio">
+  <canvas id="networkCanvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-tag">Educación · Inteligencia Artificial · Transformación</div>
+    <h1>Arquitecturas para repensar la universidad</h1>
+    <p>Herramientas, metodologías, investigación y experiencia aplicada para comprender y transformar la educación superior en tiempos de inteligencia artificial.</p>
+    <div class="hero-phrase">
+      <span id="rotatingPhrase">"Repensar la universidad en tiempos de inteligencia artificial"</span>
+    </div>
+    <div class="hero-buttons">
+      <button class="btn-primary" onclick="document.getElementById('ecosistema').scrollIntoView()">Explorar ecosistema ↓</button>
+      <button class="btn-outline" onclick="document.getElementById('contacto').scrollIntoView()">Contacto</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ QUIÉN SOY ═══════ -->
+<section class="about" id="about">
+  <div class="reveal">
+    <div class="about-grid">
+      <div class="about-avatar">AI</div>
+      <div class="about-text">
+        <div class="section-tag" style="color: var(--accent)">QUIÉN SOY</div>
+        <h2>Una visión articulada para transformar la educación</h2>
+        <p>No soy solo un docente, investigador o consultor que trabaja temas de inteligencia artificial.
+        He construido herramientas, metodologías, investigación, reflexión y experiencia aplicada que
+        forman un ecosistema coherente para comprender y acompañar la transformación de la educación superior.</p>
+        <div class="about-tags">
+          <span>Investigador</span>
+          <span>Docente universitario</span>
+          <span>Metodólogo</span>
+          <span>Consultor</span>
+          <span>Autor</span>
+          <span>Proyección internacional</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ ECOSISTEMA ═══════ -->
+<section class="ecosystem" id="ecosistema">
+  <div class="ecosystem-inner">
+    <div class="reveal" style="text-align: center; margin-bottom: 12px;">
+      <div class="section-tag" style="color: var(--gold)">ECOSISTEMA INTERRELACIONAL</div>
+      <div class="section-title">Arquitectura fractal de educación e IA</div>
+      <div class="section-desc">Cada componente tiene identidad propia, pero todos se conectan y retroalimentan como nodos de una misma red.</div>
+    </div>
+    <div class="reveal">
+      <svg class="eco-svg" viewBox="0 0 500 440" id="ecoSvg"></svg>
+    </div>
+    <div class="eco-detail" id="ecoDetail"></div>
+  </div>
+</section>
+
+<!-- ═══════ TESIS ═══════ -->
+<section class="tesis">
+  <div class="reveal">
+    <div class="tesis-line"></div>
+    <blockquote>
+      "La inteligencia artificial está obligando a repensar la universidad, el currículo,
+      la formación docente, la investigación y la transformación institucional.
+      Mi trabajo consiste en comprender, evaluar, diseñar y acompañar esa transformación
+      desde metodologías, herramientas, investigación y experiencias aplicadas."
+    </blockquote>
+    <div class="tesis-line" style="margin-top: 28px;"></div>
+  </div>
+</section>
+
+<!-- ═══════ LÍNEAS ESTRATÉGICAS ═══════ -->
+<section class="lineas" id="lineas">
+  <div class="reveal" style="text-align: center; margin-bottom: 36px;">
+    <div class="section-tag" style="color: var(--accent)">COMPONENTES DEL ECOSISTEMA</div>
+    <div class="section-title">Líneas estratégicas</div>
+  </div>
+  <div id="componentCards"></div>
+</section>
+
+<!-- ═══════ PILARES ═══════ -->
+<section class="pilares" id="pilares">
+  <div class="pilares-inner">
+    <div class="reveal" style="text-align: center;">
+      <div class="section-tag" style="color: var(--gold)">PENSAMIENTO & VISIÓN</div>
+      <div class="section-title">Pilares de contenido</div>
+      <div class="section-desc">Artículos, reflexiones e investigación organizados en 6 ejes temáticos</div>
+    </div>
+    <div class="pilares-grid" id="pilaresGrid"></div>
+  </div>
+</section>
+
+<!-- ═══════ INTERNACIONAL ═══════ -->
+<section class="internacional">
+  <div class="reveal">
+    <div class="intl-card">
+      <div class="intl-globe">COL<br>↔<br>POR</div>
+      <div class="intl-text">
+        <div class="section-tag" style="color: var(--rose)">PROYECCIÓN INTERNACIONAL</div>
+        <h3>Colombia — Portugal — América Latina</h3>
+        <p>Docencia en maestría en el IPB, investigación multilingüe en tres idiomas,
+        innovación con sector productivo y aprendizaje basado en desafíos.
+        La dimensión internacional no es un complemento: es parte constitutiva del ecosistema.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ CTA ═══════ -->
+<section class="cta" id="contacto">
+  <div class="cta-inner reveal">
+    <div class="section-tag" style="color: var(--emerald)">CONECTEMOS</div>
+    <div class="section-title">¿Trabajamos juntos?</div>
+    <p style="font-size: 15px; color: var(--text-soft); margin-top: 14px;">
+      Consultoría, conferencias, investigación colaborativa, transformación institucional y alianzas estratégicas.
+    </p>
+    <div class="cta-tags">
+      <span>Consultoría</span><span>Conferencias</span><span>Investigación</span><span>Alianzas</span>
+    </div>
+    <div class="cta-buttons">
+      <a href="mailto:tucorreo@email.com" class="btn-primary" style="text-decoration:none; display:inline-block;">Escríbeme</a>
+      <a href="https://linkedin.com/in/tuperfil" target="_blank" class="btn-linkedin" style="text-decoration:none; display:inline-block;">LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════ FOOTER ═══════ -->
+<footer class="footer">
+  <div class="footer-icons">
+    <span style="color:#38bdf8">◈</span>
+    <span style="color:#8b5cf6">◉</span>
+    <span style="color:#f5a623">◎</span>
+    <span style="color:#34d399">◇</span>
+    <span style="color:#fb7185">◆</span>
+    <span style="color:#a78bfa">○</span>
+  </div>
+  <p>Educación · Inteligencia Artificial · Transformación Universitaria</p>
+  <p style="margin-top: 4px; opacity: 0.5;">© 2026 — Todos los derechos reservados</p>
+</footer>
+
+<script>
+/* ═══════════════════════════════════
+   DATA
+   ═══════════════════════════════════ */
+const COMPONENTS = [
+  { id:"evalpro", label:"EvalualPRO", icon:"◈", color:"#38bdf8",
+    tagline:"Evaluación prospectiva de programas académicos",
+    desc:"Herramienta estratégica que evalúa viabilidad, pertinencia y relevancia de programas universitarios en escenarios de 1, 3 y 5 años frente al impacto de la inteligencia artificial.",
+    problem:"¿El programa que hoy existe seguirá siendo viable en un mundo atravesado por la IA?",
+    value:["Lógica de anticipación","Lectura del entorno","Capacidad adaptativa","Apoyo a decisiones institucionales"] },
+  { id:"sinergia", label:"Sinergia", icon:"◉", color:"#8b5cf6",
+    tagline:"Metodología de transformación digital con co-creación IA",
+    desc:"Metodología propia que articula transformación digital en cinco niveles: personal, de área, institucional, regional/nacional e internacional, centrando el cambio en las personas.",
+    problem:"La transformación no ocurre por incorporar herramientas, sino cuando las personas construyen visión compartida.",
+    value:["Diseño con método","Co-creación con IA","Lógica sistémica","Escalamiento progresivo"] },
+  { id:"macro", label:"100.000 Docentes", icon:"◎", color:"#f5a623",
+    tagline:"Macroinvestigación internacional sobre percepción docente",
+    desc:"Investigación a escala internacional para comprender cómo 100.000 docentes de América Latina, Brasil y Portugal perciben, usan y cuestionan la inteligencia artificial en educación.",
+    problem:"Necesitamos evidencia masiva, multilingüe y procesada con IA para diseñar formación docente pertinente.",
+    value:["Ambición internacional","IA como herramienta de análisis","Base empírica para políticas","Sistema multilingüe ES/PT"] },
+  { id:"libro", label:"Método Fractal", icon:"◇", color:"#34d399",
+    tagline:"Libro: Indagación progresiva con inteligencia artificial",
+    desc:"Obra en construcción que propone una metodología para usar la IA con sentido, profundidad y estrategia, evitando automatismos superficiales mediante la indagación progresiva.",
+    problem:"El problema no es usar IA, sino saber cómo usarla con criterio, profundidad y estrategia.",
+    value:["Metodología propia","Producción intelectual original","Pensamiento estratégico","Marco conceptual"] },
+  { id:"ipb", label:"IPB Portugal", icon:"◆", color:"#fb7185",
+    tagline:"Experiencia internacional en posgrado e innovación",
+    desc:"Docencia en maestría en el Instituto Politécnico de Bragança y participación en grupos de innovación con aprendizaje basado en desafíos, conectando universidad y sector productivo.",
+    problem:"La legitimidad internacional se construye con experiencia aplicada, no solo con discurso.",
+    value:["Experiencia en posgrado internacional","Articulación universidad-empresa","Metodologías activas","Perspectiva comparada"] },
+  { id:"curriculo", label:"Currículo & IA", icon:"○", color:"#a78bfa",
+    tagline:"Eje transversal: pedagogías emergentes y competencias",
+    desc:"Columna vertebral conceptual que conecta currículo, pedagogía, evaluación, formación docente y pertinencia profesional bajo el impacto transformador de la inteligencia artificial.",
+    problem:"La IA no es solo una herramienta: es un fenómeno que transforma el sentido mismo de la formación.",
+    value:["Visión sistémica","Integración curricular","Pedagogías emergentes","Competencias docentes"] }
+];
+
+const CONN = [[0,1],[0,2],[0,3],[0,4],[1,2],[1,3],[1,4],[2,3],[2,4],[3,4],[0,5],[1,5],[2,5],[3,5],[4,5]];
+
+const PILLARS = [
+  { num:"I", title:"Futuro de la Universidad", color:"#38bdf8", desc:"Pertinencia, relevancia y viabilidad de la educación superior" },
+  { num:"II", title:"Currículo e IA", color:"#8b5cf6", desc:"Cómo la IA reconfigura programas y trayectorias formativas" },
+  { num:"III", title:"Formación Docente", color:"#f5a623", desc:"Competencias, percepción docente y transformación profesional" },
+  { num:"IV", title:"Transformación Digital", color:"#34d399", desc:"Metodología Sinergia: niveles, casos y escalamiento" },
+  { num:"V", title:"Investigación & Evidencia", color:"#fb7185", desc:"100.000 docentes: datos, hallazgos y preguntas abiertas" },
+  { num:"VI", title:"Producción Internacional", color:"#a78bfa", desc:"Libro, IPB, innovación y aprendizaje basado en desafíos" }
+];
+
+const PHRASES = [
+  "Repensar la universidad en tiempos de inteligencia artificial",
+  "Más que adoptar tecnología: rediseñar la educación",
+  "Metodologías para transformar la educación con IA",
+  "De la evaluación curricular a la transformación institucional"
+];
+
+/* ═══════════════════════════════════
+   NETWORK CANVAS
+   ═══════════════════════════════════ */
+(function(){
+  const canvas = document.getElementById('networkCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let w, h;
+  const nodes = [];
+
+  function resize() {
+    w = canvas.width = canvas.offsetWidth * 2;
+    h = canvas.height = canvas.offsetHeight * 2;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  for(let i = 0; i < 50; i++) {
+    nodes.push({
+      x: Math.random()*w, y: Math.random()*h,
+      vx: (Math.random()-0.5)*0.5, vy: (Math.random()-0.5)*0.5,
+      r: Math.random()*2+1
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0,0,w,h);
+    nodes.forEach(n => {
+      n.x += n.vx; n.y += n.vy;
+      if(n.x<0||n.x>w) n.vx*=-1;
+      if(n.y<0||n.y>h) n.vy*=-1;
+    });
+    for(let i=0;i<nodes.length;i++){
+      for(let j=i+1;j<nodes.length;j++){
+        const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<200){
+          ctx.beginPath();
+          ctx.moveTo(nodes[i].x,nodes[i].y);
+          ctx.lineTo(nodes[j].x,nodes[j].y);
+          ctx.strokeStyle=`rgba(56,189,248,${0.07*(1-dist/200)})`;
+          ctx.lineWidth=0.8;
+          ctx.stroke();
+        }
+      }
+    }
+    nodes.forEach(n => {
+      ctx.beginPath();
+      ctx.arc(n.x,n.y,n.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(56,189,248,${0.2+n.r*0.1})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ═══════════════════════════════════
+   ROTATING PHRASES
+   ═══════════════════════════════════ */
+let phraseIdx = 0;
+setInterval(() => {
+  phraseIdx = (phraseIdx+1) % PHRASES.length;
+  const el = document.getElementById('rotatingPhrase');
+  el.style.opacity = 0;
+  setTimeout(() => {
+    el.textContent = `"${PHRASES[phraseIdx]}"`;
+    el.style.opacity = 1;
+  }, 400);
+}, 4000);
+
+/* ═══════════════════════════════════
+   ECOSYSTEM SVG
+   ═══════════════════════════════════ */
+let activeNode = null;
+
+function buildEcosystem() {
+  const svg = document.getElementById('ecoSvg');
+  const cx=250, cy=220, r=155;
+  const nodes = COMPONENTS.map((c,i) => {
+    const angle = (i*2*Math.PI/COMPONENTS.length) - Math.PI/2;
+    return { ...c, x: cx+r*Math.cos(angle), y: cy+r*Math.sin(angle), idx:i };
+  });
+
+  let html = `<defs>
+    <radialGradient id="cg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/>
+    </radialGradient>`;
+  COMPONENTS.forEach((c,i) => {
+    html += `<radialGradient id="ng${i}" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="${c.color}" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="${c.color}" stop-opacity="0"/>
+    </radialGradient>`;
+  });
+  html += `</defs>`;
+  html += `<circle cx="${cx}" cy="${cy}" r="${r+55}" fill="url(#cg)"/>`;
+
+  // connections
+  CONN.forEach(([a,b],i) => {
+    html += `<line class="eco-line" data-a="${a}" data-b="${b}"
+      x1="${nodes[a].x}" y1="${nodes[a].y}" x2="${nodes[b].x}" y2="${nodes[b].y}"
+      stroke="#1e293b" stroke-width="0.7" opacity="0.3"/>`;
+  });
+
+  // center text
+  html += `<text x="${cx}" y="${cy-12}" text-anchor="middle" fill="#e2e8f0" font-size="10" font-weight="700" letter-spacing="2" opacity="0.45">ECOSISTEMA</text>`;
+  html += `<text x="${cx}" y="${cy+4}" text-anchor="middle" fill="#38bdf8" font-size="9" letter-spacing="1.5" opacity="0.6">INTERRELACIONAL</text>`;
+  html += `<text x="${cx}" y="${cy+20}" text-anchor="middle" fill="#f5a623" font-size="7.5" letter-spacing="1" opacity="0.4">EDUCACIÓN & IA</text>`;
+
+  // nodes
+  nodes.forEach((n,i) => {
+    html += `<g class="eco-node" onclick="selectNode(${i})">
+      <circle cx="${n.x}" cy="${n.y}" r="36" fill="url(#ng${i})"/>
+      <circle cx="${n.x}" cy="${n.y}" r="18" fill="#0f1628" stroke="${n.color}" stroke-width="1.5"
+        class="eco-node-circle" data-idx="${i}"/>
+      <text x="${n.x}" y="${n.y+1}" text-anchor="middle" dominant-baseline="central"
+        fill="${n.color}" font-size="15" font-weight="bold">${n.icon}</text>
+      <text x="${n.x}" y="${n.y+38}" text-anchor="middle" fill="${n.color}"
+        font-size="8.5" font-weight="700" letter-spacing="0.8">${n.label.toUpperCase()}</text>
+    </g>`;
+  });
+
+  svg.innerHTML = html;
+}
+buildEcosystem();
+
+function selectNode(idx) {
+  if(activeNode === idx) { activeNode = null; }
+  else { activeNode = idx; }
+  updateEcoVisuals();
+}
+
+function updateEcoVisuals() {
+  // Update lines
+  document.querySelectorAll('.eco-line').forEach(line => {
+    const a = +line.dataset.a, b = +line.dataset.b;
+    if(activeNode !== null && (a === activeNode || b === activeNode)) {
+      const other = a === activeNode ? b : a;
+      line.setAttribute('stroke', COMPONENTS[other].color);
+      line.setAttribute('stroke-width', '2');
+      line.setAttribute('opacity', '0.6');
+    } else {
+      line.setAttribute('stroke', '#1e293b');
+      line.setAttribute('stroke-width', '0.7');
+      line.setAttribute('opacity', '0.3');
+    }
+  });
+  // Update node circles
+  document.querySelectorAll('.eco-node-circle').forEach(circle => {
+    const i = +circle.dataset.idx;
+    if(i === activeNode) {
+      circle.setAttribute('r', '22');
+      circle.setAttribute('fill', COMPONENTS[i].color);
+      circle.setAttribute('stroke-width', '2.5');
+      circle.nextElementSibling.setAttribute('fill', '#060a14');
+    } else {
+      circle.setAttribute('r', '18');
+      circle.setAttribute('fill', '#0f1628');
+      circle.setAttribute('stroke-width', '1.5');
+      circle.nextElementSibling.setAttribute('fill', COMPONENTS[i].color);
+    }
+  });
+  // Detail panel
+  const detail = document.getElementById('ecoDetail');
+  if(activeNode === null) { detail.classList.remove('open'); return; }
+  const c = COMPONENTS[activeNode];
+  const conns = CONN.filter(([a,b]) => a===activeNode||b===activeNode)
+    .map(([a,b]) => { const o = a===activeNode?b:a; return COMPONENTS[o]; });
+  detail.style.borderColor = c.color+'30';
+  detail.innerHTML = `
+    <div class="eco-detail-head">
+      <div class="eco-detail-icon" style="color:${c.color}">${c.icon}</div>
+      <div>
+        <div class="eco-detail-title" style="color:${c.color}">${c.label}</div>
+        <div class="eco-detail-sub">${c.tagline}</div>
+      </div>
+    </div>
+    <p>${c.desc}</p>
+    <div class="eco-connections">
+      ${conns.map(o => `<span class="eco-conn" style="background:${o.color}12;color:${o.color};border-color:${o.color}25"
+        onclick="event.stopPropagation();selectNode(${COMPONENTS.indexOf(o)})">→ ${o.label}</span>`).join('')}
+    </div>`;
+  detail.classList.add('open');
+}
+
+/* ═══════════════════════════════════
+   COMPONENT CARDS
+   ═══════════════════════════════════ */
+(function(){
+  const container = document.getElementById('componentCards');
+  COMPONENTS.forEach((c,i) => {
+    const card = document.createElement('div');
+    card.className = 'component-card reveal';
+    card.innerHTML = `
+      <div class="card-num" style="color:${c.color}">${String(i+1).padStart(2,'0')}</div>
+      <div class="card-header">
+        <div class="card-icon" style="background:${c.color}15;border:1.5px solid ${c.color}40;color:${c.color}">${c.icon}</div>
+        <div>
+          <div class="card-title" style="color:${c.color}">${c.label}</div>
+          <div class="card-tagline">${c.tagline}</div>
+        </div>
+        <div class="card-toggle">+</div>
+      </div>
+      <div class="card-body">
+        <div class="card-body-inner">
+          <p>${c.desc}</p>
+          <div class="card-problem" style="background:${c.color}0a;border:1px solid ${c.color}20">
+            <div class="label" style="color:${c.color}">PROBLEMA QUE RESUELVE</div>
+            <p>${c.problem}</p>
+          </div>
+          <div class="card-values">
+            ${c.value.map(v => `<span style="background:${c.color}12;color:${c.color};border:1px solid ${c.color}20">${v}</span>`).join('')}
+          </div>
+        </div>
+      </div>`;
+    card.addEventListener('click', () => card.classList.toggle('open'));
+    container.appendChild(card);
+  });
+})();
+
+/* ═══════════════════════════════════
+   PILARES
+   ═══════════════════════════════════ */
+(function(){
+  const grid = document.getElementById('pilaresGrid');
+  PILLARS.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'pilar-card reveal';
+    card.style.borderLeft = `3px solid ${p.color}35`;
+    card.innerHTML = `
+      <div class="pilar-num" style="color:${p.color}">${p.num}</div>
+      <div class="pilar-dot" style="background:${p.color};box-shadow:0 0 16px ${p.color}50"></div>
+      <div class="pilar-title" style="color:${p.color}">${p.title}</div>
+      <div class="pilar-desc">${p.desc}</div>`;
+    grid.appendChild(card);
+  });
+})();
+
+/* ═══════════════════════════════════
+   SCROLL REVEAL
+   ═══════════════════════════════════ */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ═══════════════════════════════════
+   NAV SCROLL HIGHLIGHT
+   ═══════════════════════════════════ */
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if(window.scrollY >= s.offsetTop - 200) current = s.id;
+  });
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#'+current);
+  });
+});
+</script>
+</body>
+</html>
